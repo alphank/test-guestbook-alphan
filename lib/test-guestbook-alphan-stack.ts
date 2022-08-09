@@ -25,23 +25,23 @@ export class TestGuestbookAlphanStack extends cdk.Stack {
     });
 
     // Create DynamoDB
-    const commentsTable = new dynamodb.Table(this, "CommentsTable", {
-      partitionKey: {
-        name: "pk",
-        type: dynamodb.AttributeType.STRING,
-      },
-      sortKey: {
-        name: "sk",
-        type: dynamodb.AttributeType.STRING,
-      },
-      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
-      removalPolicy: cdk.RemovalPolicy.DESTROY,
-    });
+    // const commentsTable = new dynamodb.Table(this, "CommentsTable", {
+    //   partitionKey: {
+    //     name: "pk",
+    //     type: dynamodb.AttributeType.STRING,
+    //   },
+    //   sortKey: {
+    //     name: "sk",
+    //     type: dynamodb.AttributeType.STRING,
+    //   },
+    //   billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+    //   removalPolicy: cdk.RemovalPolicy.DESTROY,
+    // });
 
     // In case, if we decide to use an existing DynamoDB Table
-    // const commentsTable = dynamodb.Table.fromTableAttributes(this, "CommentsTable", {
-    //   tableName: "TestGuestbookAlphanStack-CommentsTableBBDBF0A8-10BAHSILH2NJH"
-    // });
+    const commentsTable = dynamodb.Table.fromTableAttributes(this, "CommentsTable", {
+      tableArn: "arn:aws:dynamodb:us-east-1:976130767915:table/GuestBookTable"
+    });
 
     // List Comments
     const listCommentsLambda = new lambda.Function(

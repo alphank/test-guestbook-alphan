@@ -1,0 +1,353 @@
+{
+	"info": {
+		"_postman_id": "430b6691-2f46-4588-9ccd-5f43e60d9477",
+		"name": "Guest Book Demo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2060491"
+	},
+	"item": [
+		{
+			"name": "Test",
+			"item": [
+				{
+					"name": "Step 1: List Current Comments",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"console.log(JSON.stringify(jsonData));\r",
+									"\r",
+									"const comment = jsonData.data.listComments[0];\r",
+									"\r",
+									"console.log(JSON.stringify(comment));\r",
+									"\r",
+									"pm.variables.set(\"commentBeforeTest\", comment);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{api_key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "x-api-key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query listComments {\r\n  listComments {\r\n    pk\r\n    sk\r\n    content\r\n    author\r\n    subject\r\n  }\r\n}\r\n",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{demo_url}}/graphql",
+							"host": [
+								"{{demo_url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Step 2: Add Another Comment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"const comment = jsonData.data.listComments[0];\r",
+									"\r",
+									"console.log(JSON.stringify(comment.sk));\r",
+									"const commentBeforeTest = pm.variables.get(\"commentBeforeTest\");\r",
+									"console.log(JSON.stringify(commentBeforeTest.sk));\r",
+									"\r",
+									"pm.test(\"Check if it is stil the same comment\", () => {\r",
+									"    pm.expect(comment.sk).to.eql(commentBeforeTest.sk);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{api_key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "x-api-key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query listComments {\r\n  listComments {\r\n    pk\r\n    sk\r\n    content\r\n    author\r\n    subject\r\n  }\r\n}\r\n",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{demo_url}}/graphql",
+							"host": [
+								"{{demo_url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "AddComment",
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "{{api_key}}",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation addComment {\r\n  addComment(\r\n    comment: {\r\n      subject: \"subject {{$randomInt}}\"\r\n      content: \"content {{$randomInt}}\"\r\n      author: \"author {{$randomInt}}\"\r\n    }\r\n  ) {\r\n    pk\r\n    sk\r\n    subject\r\n    content\r\n    author\r\n  }\r\n}\r\n",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{demo_url}}/graphql",
+					"host": [
+						"{{demo_url}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RemoveComment",
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "{{api_key}}",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation removeComment {\r\n    removeComment(\r\n        comment: {\r\n            pk: \"COMMENT#2022-07\"\r\n            sk: \"COMMENT#2D5hKVvSCoxeUjjnRbsNWJc4WG8\",\r\n        }\r\n    ) {\r\n        pk\r\n        sk\r\n        content\r\n    }\r\n}\r\n",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{demo_url}}/graphql",
+					"host": [
+						"{{demo_url}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ListComments",
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "{{api_key}}",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query listComments {\r\n  listComments {\r\n    pk\r\n    sk\r\n    content\r\n    author\r\n    subject\r\n  }\r\n}\r\n",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{demo_url}}/graphql",
+					"host": [
+						"{{demo_url}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"\r",
+							"for (let idx = 0; idx < 10; idx++) {\r",
+							"    const testNo = Math.floor(Math.random() * 1000000);\r",
+							"\r",
+							"    var graphql = JSON.stringify({\r",
+							"        query: `mutation addComment {\\r\\n  addComment(\\r\\n    comment: {\\r\\n      subject: \\\"subject-${testNo}\\\"\\r\\n      content: \\\"content-${testNo}\\\"\\r\\n      author: \\\"author-${testNo}\\\"\\r\\n    }\\r\\n  ) {\\r\\n    pk\\r\\n    sk\\r\\n    subject\\r\\n    content\\r\\n    author\\r\\n  }\\r\\n}\\r\\n`,\r",
+							"        variables: {}\r",
+							"    })\r",
+							"\r",
+							"    const demo_url = pm.variables.get(\"demo_url\");\r",
+							"    const api_key = pm.variables.get(\"api_key\");\r",
+							"\r",
+							"    const testRequest = {\r",
+							"        url: `${demo_url}/graphql`,\r",
+							"        method: 'POST',\r",
+							"        header: {\r",
+							"            'Content-Type': 'application/json',\r",
+							"            'x-api-key': `${api_key}`\r",
+							"        },\r",
+							"        body: {\r",
+							"            mode: 'raw',\r",
+							"            raw: graphql\r",
+							"        }\r",
+							"    };\r",
+							"\r",
+							"    console.log(JSON.stringify(graphql));\r",
+							"\r",
+							"    pm.sendRequest(testRequest, (error, response) => {\r",
+							"        console.log(error ? error : response.json());\r",
+							"    });\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "{{api_key}}",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "x-api-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query listComments {\r\n  listComments {\r\n    pk\r\n    sk\r\n    content\r\n    author\r\n    subject\r\n  }\r\n}\r\n",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{demo_url}}/graphql",
+					"host": [
+						"{{demo_url}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
