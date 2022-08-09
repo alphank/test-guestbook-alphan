@@ -8,20 +8,30 @@
     "build": "tsc",
     "watch": "tsc -w",
     "test": "jest",
-    "cdk": "cdk"
+    "cdk": "cdk",
+    "tsc-version": "tsc --version"
   },
   "devDependencies": {
-    "@aws-cdk/assertions": "1.154.0",
+    "@aws-cdk/assertions": "1.167.0",
     "@types/jest": "^27.4.1",
     "@types/node": "10.17.27",
+    "aws-cdk": "1.167.0",
+    "esbuild": "^0.14.53",
     "jest": "^27.5.1",
     "ts-jest": "^27.1.4",
-    "aws-cdk": "1.154.0",
     "ts-node": "^10.7.0",
-    "typescript": "~3.9.7"
+    "typescript": "^4.2.0"
   },
   "dependencies": {
-    "@aws-cdk/core": "1.154.0",
+    "@aws-cdk/aws-appsync": "^1.167.0",
+    "@aws-cdk/aws-dynamodb": "^1.167.0",
+    "@aws-cdk/aws-iam": "^1.167.0",
+    "@aws-cdk/aws-lambda": "^1.167.0",
+    "@aws-cdk/aws-lambda-nodejs": "^1.167.0",
+    "@aws-cdk/core": "1.167.0",
+    "@types/aws-lambda": "^8.10.101",
+    "aws-sdk": "^2.1189.0",
+    "ksuid": "^3.0.0",
     "source-map-support": "^0.5.21"
   }
 }

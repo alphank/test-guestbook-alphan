@@ -1,0 +1,28 @@
+type Comment {
+	pk: String
+	sk: String
+	subject: String
+	content: String!
+	author: String
+	createdAt: String
+}
+
+type Query {
+	listComments: [Comment]
+}
+
+type Mutation {
+	addComment(comment: AddCommentInput): Comment
+	removeComment(comment: RemoveCommentInput): Comment
+}
+
+input AddCommentInput {
+	subject: String
+	content: String!
+	author: String
+}
+
+input RemoveCommentInput {
+	pk: String!
+	sk: String!
+}
